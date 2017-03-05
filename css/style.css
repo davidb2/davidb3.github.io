@@ -1,0 +1,75 @@
+div.section#top-section {
+    text-align: center;
+}
+
+div.section#middle-section {
+    text-align: center;
+}
+
+div.section#bottom-section {
+    text-align: center;
+    background: #E0E0E0;
+    padding-top: 20px;
+}
+
+a.button {
+    text-align: center;
+    text-decoration: none;
+    font-family: "Roboto";
+    font-size: 16px;
+    color: #000000;
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+    padding: 10px 18px;
+    margin: 20px 20px;
+    display: inline-block;
+}
+
+a:link {
+    text-decoration: none!important;
+}
+
+a.button#github:hover {
+    animation: background-color-transition-white-to-red 1s 1;
+    animation-fill-mode: forwards; 
+}
+
+a.button#resume:hover {
+    animation: background-color-transition-white-to-yellow 1s 1;
+    animation-fill-mode: forwards; 
+}
+
+a.button#blog:hover {
+    animation: background-color-transition-white-to-blue 1s 1;
+    animation-fill-mode: forwards; 
+}
+
+a.button#source:hover {
+    animation: background-color-transition-white-to-green 1s 1;
+    animation-fill-mode: forwards; 
+}
+
+
+
+/**
+ * Transition between red, yellow, and blue, #FF5252, #FFFF00, #448AFF
+ */
+@keyframes background-color-transition-white-to-red {
+    from { background-color: #FFFFFF; }   
+    to   { background-color: #FF8A80; }
+}
+
+@keyframes background-color-transition-white-to-yellow {
+    from { background-color: #FFFFFF; }   
+    to   { background-color: #FFFF8D; }
+}
+
+@keyframes background-color-transition-white-to-blue {
+    from { background-color: #FFFFFF; }   
+    to   { background-color: #82B1FF; }
+}
+
+@keyframes background-color-transition-white-to-green {
+    from { background-color: #FFFFFF; }   
+    to   { background-color: #B9F6CA; }
+}
