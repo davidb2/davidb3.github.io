@@ -1,9 +1,32 @@
 div.section#top-section {
     text-align: center;
+    color: #FFFFFF;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 50px;
+    position: absolute;
+    z-index: 10;
+    width: 400px;
+    background: rgb(255, 255, 255, 255);
+    top: 175px;
+    left: 50%;
+    margin: -110px 0 0 -190px;
+    box-sizing: border-box;
+    z-index: 100;
+    filter: alpha(opacity=90);
 }
 
-div.section#middle-section {
+div.section#top-middle-section {
     text-align: center;
+    padding: 15px;
+}
+
+div.section#bottom-middle-section {
+    text-align: left;
+    font-family: "Ubuntu Mono", monospace;
+    padding: 15px;
+    animation: white-to-black 1s 1;
+    animation-fill-mode: forwards;
 }
 
 div.section#bottom-section {
@@ -12,14 +35,18 @@ div.section#bottom-section {
     padding-top: 20px;
 }
 
+p#name {
+    filter: alpha(opacity=90);
+}
+
 a.button {
     text-align: center;
     text-decoration: none;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     color: #000000;
     background-color: #FFFFFF;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     padding: 10px 18px;
     margin: 20px 20px;
     display: inline-block;
@@ -49,11 +76,175 @@ a.button#source:hover {
     animation-fill-mode: forwards; 
 }
 
+a.button#github:hover ~ #profile-pic {
+    animation: shadow-color-transition-black-to-red 1s 1;
+    animation-fill-mode: forwards; 
+}
 
+a.button#resume:hover ~ #profile-pic {
+    animation: shadow-color-transition-black-to-yellow 1s 1;
+    animation-fill-mode: forwards; 
+}
 
-/**
- * Transition between red, yellow, and blue, #FF5252, #FFFF00, #448AFF
- */
+a.button#blog:hover ~ #profile-pic {
+    animation: shadow-color-transition-black-to-blue 1s 1;
+    animation-fill-mode: forwards; 
+}
+
+img {
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #000000;
+    width: 50px;
+    box-shadow: 0px 5px 15px 0px #000000;
+    position: absolute;
+    transform: translate3d(-50%, -85%, 0);
+    left:5%;
+}
+
+p.line-input {
+    width: 50em;
+}
+
+p.line-output {
+    width: 50em;
+}
+
+p.line-finish {
+    border-right: 0.5em solid black;
+    width: 175px;
+    animation: blink-caret 1s infinite;
+}
+
+span {
+    display:inline-block;
+}
+
+span.output {
+    color: #FFFFFF;
+}
+
+span.command:before {
+    color: #FFFFFF;
+    font-weight: 400;
+}
+
+span.user:before {
+    content: "david@kali";
+    color: #F44336;
+    font-weight: 700;
+}
+
+span.colon:before {
+    content: ":";
+    color: #FFFFFF;/**#76FF03;*/
+    font-weight: 400;
+}
+
+span.directory:before {
+    color: #2196F3;
+    font-weight: 700;
+}
+
+span.directory#home:before {
+    content: "~";
+}
+
+span.directory#documents:before {
+    content: "~/Documents";
+}
+
+span.pound:before {
+    content: "$ ";
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+span.command#whoami:before {
+    content: "whoami";
+}
+
+span.output#whoami-output:before {
+    content: "david";
+}
+
+span.output#description-output:before {
+    content: "I am a software engineer studying Computer Science at the University of Illinois at Urbana-Champaign. I have experience with cryptography, Android development, and deep learning tools (Keras, Tensorflow, etc.).";
+}
+
+span.command#grep-euler:before {
+    content: "cat project_euler_rankings.txt | grep -n \"David Brewster\"";
+}
+
+span.output#grep-output:before {
+    content: "2542:David Brewster";
+}
+
+span.command#wc-euler:before {
+    content: "wc -l < project_euler_rankings.txt";
+}
+
+span.output#wc-output:before {
+    content: "683194";
+}
+
+span.command#cd-documents:before {
+    content: "cd Documents/";
+}
+
+span.command#cat-description:before {
+    content: "cat description.txt";
+}
+
+canvas {
+  vertical-align: bottom;
+}
+
+#particles-js {
+    background-color: rgb(182, 25, 36); 
+    background-image: url(""); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: 50% 50%;
+    height: 200px;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to   { width: 360px; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #E0E0E0 }
+}
+
+@keyframes white-to-black {
+    from { background-color: #FFFFFF; }
+    to   { background-color: #000000; }
+}
+
+@keyframes widen-div {
+    from { height: 0px; }
+    to   { height: 360px; }
+}
+
+@keyframes shadow-color-transition-black-to-red {
+    from { box-shadow: 0px 5px 15px 0px #000000; }   
+    to   { box-shadow: 0px 5px 15px 0px #FF8A80; }
+}
+
+@keyframes shadow-color-transition-black-to-yellow {
+    from { box-shadow: 0px 5px 15px 0px #000000; }   
+    to   { box-shadow: 0px 5px 15px 0px #FFFF8D; }
+}
+
+@keyframes shadow-color-transition-black-to-blue {
+    from { box-shadow: 0px 5px 15px 0px #000000; }   
+    to   { box-shadow: 0px 5px 15px 0px #82B1FF; }
+}
+
 @keyframes background-color-transition-white-to-red {
     from { background-color: #FFFFFF; }   
     to   { background-color: #FF8A80; }
