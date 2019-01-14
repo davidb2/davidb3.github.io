@@ -58,37 +58,37 @@ a:link {
 
 a.button#github:hover {
     animation: background-color-transition-white-to-red 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 a.button#resume:hover {
     animation: background-color-transition-white-to-yellow 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 a.button#blog:hover {
     animation: background-color-transition-white-to-blue 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 a.button#source:hover {
     animation: background-color-transition-white-to-green 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 a.button#github:hover ~ #profile-pic {
     animation: shadow-color-transition-black-to-red 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 a.button#resume:hover ~ #profile-pic {
     animation: shadow-color-transition-black-to-yellow 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 a.button#blog:hover ~ #profile-pic {
     animation: shadow-color-transition-black-to-blue 1s 1;
-    animation-fill-mode: forwards; 
+    animation-fill-mode: forwards;
 }
 
 img {
@@ -169,32 +169,32 @@ span.output#whoami-output:before {
     content: "david";
 }
 
+span.command#cat-description:before {
+    content: "cat description.txt";
+}
+
 span.output#description-output:before {
-    content: "I am a software engineer studying Computer Science at the University of Illinois at Urbana-Champaign. I have experience with cryptography, Android development, and deep learning tools (Keras, Tensorflow, etc.).";
+    content: "I am studying Computer Science @ UIUC. I am fascinated with the idea of intelligence and its many definitions. Understanding the underlying complexity of gene machines (i.e. living organisms) and applying nature\'s developments to abstract and concrete problems is what I like to do. I have experience with deep learning tools (Tensorflow, Keras, etc.) and software engineering in general.";
 }
 
 span.command#grep-euler:before {
-    content: "cat project_euler_rankings.txt | grep -n \"David Brewster\"";
+    content: "grep -ne \'David Brewster\' project_euler_rankings.txt";
 }
 
 span.output#grep-output:before {
-    content: "2542:David Brewster";
+    content: "7107:David Brewster";
 }
 
 span.command#wc-euler:before {
-    content: "wc -l < project_euler_rankings.txt";
+    content: "wc -l project_euler_rankings.txt";
 }
 
 span.output#wc-output:before {
-    content: "683194";
+    content: "871071";
 }
 
 span.command#cd-documents:before {
     content: "cd Documents/";
-}
-
-span.command#cat-description:before {
-    content: "cat description.txt";
 }
 
 canvas {
@@ -202,10 +202,10 @@ canvas {
 }
 
 #particles-js {
-    background-color: rgb(182, 25, 36); 
-    background-image: url(""); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
+    background-color: rgb(182, 25, 36);
+    background-image: url("");
+    background-size: cover;
+    background-repeat: no-repeat;
     background-position: 50% 50%;
     height: 200px;
 }
@@ -231,36 +231,36 @@ canvas {
 }
 
 @keyframes shadow-color-transition-black-to-red {
-    from { box-shadow: 0px 5px 15px 0px #000000; }   
+    from { box-shadow: 0px 5px 15px 0px #000000; }
     to   { box-shadow: 0px 5px 15px 0px #FF8A80; }
 }
 
 @keyframes shadow-color-transition-black-to-yellow {
-    from { box-shadow: 0px 5px 15px 0px #000000; }   
+    from { box-shadow: 0px 5px 15px 0px #000000; }
     to   { box-shadow: 0px 5px 15px 0px #FFFF8D; }
 }
 
 @keyframes shadow-color-transition-black-to-blue {
-    from { box-shadow: 0px 5px 15px 0px #000000; }   
+    from { box-shadow: 0px 5px 15px 0px #000000; }
     to   { box-shadow: 0px 5px 15px 0px #82B1FF; }
 }
 
 @keyframes background-color-transition-white-to-red {
-    from { background-color: #FFFFFF; }   
+    from { background-color: #FFFFFF; }
     to   { background-color: #FF8A80; }
 }
 
 @keyframes background-color-transition-white-to-yellow {
-    from { background-color: #FFFFFF; }   
+    from { background-color: #FFFFFF; }
     to   { background-color: #FFFF8D; }
 }
 
 @keyframes background-color-transition-white-to-blue {
-    from { background-color: #FFFFFF; }   
+    from { background-color: #FFFFFF; }
     to   { background-color: #82B1FF; }
 }
 
 @keyframes background-color-transition-white-to-green {
-    from { background-color: #FFFFFF; }   
+    from { background-color: #FFFFFF; }
     to   { background-color: #B9F6CA; }
 }

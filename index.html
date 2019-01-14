@@ -23,7 +23,7 @@
 
         <!-- link my custom css spreadsheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
         <!-- link bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!--[if lt IE 9]>
@@ -32,18 +32,18 @@
         <![endif]-->
     </head>
     <body>
-            <div class="section" id="top-section">
-                <p id="name">David Brewster</p>
-            </div>
+        <div class="section" id="top-section">
+            <p id="name">David Brewster</p>
+        </div>
         <div class="section" id="particles-js">
         </div>
         <div class="section" id="top-middle-section">
-            <a class="button" id="github" href="http://github.com/ljeabmreosn" target="_blank">GitHub</a>
+            <a class="button" id="github" href="https://github.com/ljeabmreosn" target="_blank">GitHub</a>
             <a class="button" id="resume" href="files/resume.pdf" target="_blank">Resume</a>
-            <a class="button" id="blog" href="http://projecteulerfun.wordpress.com/" target="_blank">Blog</a>
+            <a class="button" id="blog" href="https://ljeabmreosn.github.io/blog" target="_blank">Blog</a>
             <img src="images/profile.jpg" id="profile-pic"/>
         </div>
-        
+
         <div class="section bash" id="bottom-middle-section">
             <p class="line-input">
                 <span class="user"/><!--
@@ -100,10 +100,10 @@
                 --><span class="command" id="blank"/>
             </p>
         </div>
-        
+
         <div class="section" id="bottom-section">
             <footer>
-                <p>Created by David Brewster</p> 
+                <p>Created by David Brewster</p>
                 <a class="button" id="source" href="http://github.com/ljeabmreosn/davidbrewster.xyz" target="_blank">Source</a>
             </footer>
         </div>
@@ -112,12 +112,11 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
         <script>
-          var canvas = document.getElementsByClassName("particles-js-canvas-el")[0];
-          console.log(canvas + 'hi');
-            var context = canvas.getContext("2d");
-        context.fillStyle = "white";
-        context.font = "bold 16px Arial";
-        context.fillText("Zibri", 50, 50);
+          const canvas = document.getElementsByClassName("particles-js-canvas-el")[0];
+          const context = canvas.getContext("2d");
+          context.fillStyle = "white";
+          context.font = "bold 16px Arial";
+          context.fillText("Zibri", 50, 50);
         </script>
   </body>
 </html>
