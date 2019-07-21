@@ -1,0 +1,327 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.25in]{geometry}
+\usepackage{xfrac}
+\usepackage{tikz}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{fvextra}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+
+\definecolor{green}{HTML}{00E676}
+
+\newcommand{\divides}{\mid}
+\newcommand{\notdivides}{\nmid}
+\newcommand{\Mod}[1]{\ (\text{mod}\ #1)}
+\newcommand{\quotes}[1]{``#1''}
+\newcommand{\leg}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\iu}{{i\mkern1mu}}
+
+\title{Efficiently Computing Recurrence Relation Functions}
+\author{David Brewster}
+
+\begin{document}
+    \maketitle
+
+    % Abstract
+    \section{Abstract}
+    	\paragraph{}
+        	Suppose we have a function $f: \mathbb{F} \rightarrow \mathbb{F}$ that is defined in terms of itself 
+            (i.e. a recurrence relation). 
+            How can we compute $f(n)$ efficiently? We will explore common (previously known) techniques of efficiently answering that question.
+            (Note: I assume the reader is familiar with elementary linear algebra and sequences)
+   
+    % Problem Statement
+    \section{Problem Statement}
+   		\paragraph{}
+        	Suppose we have a sequence $a_0, a_1, a_2, ...$ defined as follows:
+            \begin{align*}
+            	a_0 &= 0\\
+                a_1 &= 1\\ 
+                a_n &= a_{n-1} - 2a_{n-1}\\
+            \end{align*}
+            \begin{center}
+                So, computing the first couple of values of $a_0, a_1, a_2, ...$, we have:\\
+                $0, 1, 1, -1, -3, -1, 5, 7, -3, -17, ...$
+            \end{center}
+            
+        \paragraph{}
+            Computing this with no optimizations (i.e. naïvely), we have an exponential time complexity of $O(2^n)$.
+            Obviously, this is unacceptable.
+            Let us examine different techniques to minimize the time complexity of solving the above problem.
+      
+    % Technique 1
+    \section{Technique 1}
+    	\paragraph{}
+        	There is one rather simple optimization we can make.
+            Notice that with our naïve method of computation, we use a top-down approach. 
+            Let us define a tree such that the parent node is equal to the sum of its immediate children.
+            With that definition, let us draw out the logistics of the top-down approach using the tree definition defined above
+            (this is a rough sketch; in reality, the tree would not be a perfect tree as shown below):
+            \subparagraph{}
+              \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+                \node (z){$a_n$}
+                  child {node (a) {$a_{n-1}$}
+                    child {node (b) {$a_{n-2}$}
+                      child {node {$\vdots$}
+                        child {node (d) {$a_0$}}
+                        child {node (e) {$a_1$}}
+                      } 
+                      child {node {$\vdots$}}
+                    }
+                    child {node (g) {$-2a_{n-3}$}
+                      child {node {$\vdots$}}
+                      child {node {$\vdots$}}
+                    }
+                  }
+                  child {node (j) {$-2a_{n-2}$}
+                    child {node (k) {$-2a_{n-3}$}
+                      child {node {$\vdots$}}
+                      child {node {$\vdots$}}
+                    }
+                  child {node (l) {$4a_{n-4}$}
+                    child {node {$\vdots$}}
+                    child {node (c){$\vdots$}
+                      child {node (o) {$a_0$}}
+                      child {node (p) {$a_1$}
+                        child [grow=right] {node (q) {$=$} edge from parent[draw=none]
+                          child [grow=right] {node (q) {$a_n$} edge from parent[draw=none]
+                            child [grow=up] {node (r) {$\vdots$} edge from parent[draw=none]
+                              child [grow=up] {node (s) {$a_n$} edge from parent[draw=none]
+                                child [grow=up] {node (t) {$a_n$} edge from parent[draw=none]
+                                  child [grow=up] {node (u) {$a_n$} edge from parent[draw=none]}
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                };
+                \path (a) -- (j) node [midway] {+};
+                \path (b) -- (g) node [midway] {+};
+                \path (k) -- (l) node [midway] {+};
+                \path (k) -- (g) node [midway] {+};
+                \path (d) -- (e) node [midway] {+};
+                \path (o) -- (p) node [midway] {+};
+                \path (o) -- (e) node (x) [midway] {$\cdots$}
+                  child [grow=down] {
+                   edge from parent[draw=none]
+                  };
+                \path (q) -- (r) node [midway] {+};
+                \path (s) -- (r) node [midway] {+};
+                \path (s) -- (t) node [midway] {+};
+                \path (s) -- (l) node [midway] {=};
+                \path (t) -- (u) node [midway] {+};
+                \path (z) -- (u) node [midway] {=};
+                \path (j) -- (t) node [midway] {=};
+                \path (e) -- (x) node [midway] {+};
+                \path (o) -- (x) node [midway] {+};
+
+                \path (r) -- (c) node [midway] {$\cdots$};
+              \end{tikzpicture}
+              
+		\paragraph{}
+        	Since this tree is on the order of a perfect tree, 
+            	we can find how many nodes a perfect $k$-ary tree has by the following formula:
+                	$$N(k, h) = \frac{k^{h+1}-1}{k-1}$$
+            So, since $k = 2$ (we have a \textbf{bi}nary tree) and $h = n$ (the height of the tree is $n$),
+            	then we have the number of nodes in the tree to be $N(2, n) = \frac{2^{n+1}-1}{2-1} = 2^{n+1}-1$,
+                	which is on the order of $2^n$ (Also, at each node, we are only doing a constant amount of work).
+		\paragraph{}
+        	Instead of doing this top-down approach, what if we utilized a bottom-up approach as follows (python code):
+            \begin{minted}{python}
+                def a(n):
+                    a_n = 0
+                    a_n_1 = 1
+                    
+                    # loop n times
+                    for _ in range(n):
+                        # preserve previous values
+                        last_a_n = a_n
+                        last_a_n_1 = a_n_1
+                    	
+                        # generate new values
+                        new_a_n = last_a_n_1
+                        new_a_n_1 = last_a_n_1 - 2 * last_a_n_2
+                        
+                        # update sequence values
+                        a_n = new_a_n
+                        a_n_1 = new_a_n_1
+                    return a_n
+            \end{minted}
+        \paragraph{}
+        	The above procedure has a time complexity of $\Theta(n)$. But, can we do any better?
+    
+    
+    \section {Technique 2}
+    	\paragraph{}
+        	From the problem statement, we have the formula $a_n = a_{n-1} - 2a_{n-2}$ where $a_0 = 0$ and $a_1 = 1$.
+            Now consider the system of equations:
+           	\begin{align*}
+           		a_{n} - 2a_{n-1} &= a_{n+1}\\
+                a_{n}            &= a_{n}
+           	\end{align*}
+        \paragraph{}
+            This is then equivalent to:
+            \begin{center}
+            	\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)\(\begin{pmatrix}a_{n}\\a_{n-1}\end{pmatrix}\) = 
+                	\(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\)
+            \end{center}
+        \paragraph{}
+        	But, how do we know what $a_{n}$ and $a_{n-1}$ are? Well, we can set up the same system of equations:
+            \begin{center}
+            	\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)\(\begin{pmatrix}a_{n-1}\\a_{n-2}\end{pmatrix}\) = 
+                	\(\begin{pmatrix}a_{n}\\a_{n-1}\end{pmatrix}\)
+            \end{center}
+        \paragraph{}
+        	But, how do we know what $a_{n-1}$ and $a_{n-2}$ are? Well, we can set up the same system of equations:
+            \begin{center}
+            	\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)\(\begin{pmatrix}a_{n-2}\\a_{n-3}\end{pmatrix}\) = 
+                	\(\begin{pmatrix}a_{n-1}\\a_{n-2}\end{pmatrix}\)
+            \end{center}
+        \paragraph{}
+        	But, how do we know... I think you get the point. 
+            Our question will finally terminate when we ask, ``But, how do we know what $a_1$ and $a_0$ are?'' 
+            Well, $a_0 = 0$ and $a_1 = 1$, as stated in the problem statement. 
+            Since we have answered the base case question, 
+            	we can go one level up in our recursion and answer that question,
+                	so on and so forth until we answer our original question.
+            This means, with back-substitution:
+            \begin{center}
+            	$\biggl($\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)
+                	$\biggl($\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)
+                    	$\biggl($\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)
+                        	\(\begin{pmatrix}a_{n-2}\\a_{n-3}\end{pmatrix}\)
+                        $\biggr)\biggr)\biggr)$ = 
+                	\(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\)\\
+            \end{center}
+            $\implies$
+            \begin{center}
+            	$\biggl($\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)
+                	$\biggl($\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)
+                    	$\biggl($\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\)
+                        	$\cdots$
+                        $\biggr)\biggr)\biggr)$\(\begin{pmatrix}a_{1}\\a_{0}\end{pmatrix}\) = 
+                	\(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\)\\
+            \end{center}
+            $\implies$
+            \begin{center}
+            	\(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}^{n}\)\(\begin{pmatrix}a_{1}\\a_{0}\end{pmatrix}\) = 
+                	\(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\)
+            \end{center}
+		\paragraph{}
+        	``Okay,'', you might ask, ``but how is this more efficient?''.
+            Well, remember, we can compute the exponentiation of a number $a$ to the power $n$ in $O(log_2(n))$ time as follows (pythonic psuedocode):
+            \begin{minted}{python}
+                def qe(a, n):
+                    if n == 0: return 1
+                    if n is odd: return a * qe(a, n-1)
+                    else:
+                        half = qe(a, n/2)
+                        return half * half
+            \end{minted}
+		\paragraph{}
+        	Well, we can do the same with matrices:
+            \begin{minted}{python}
+                def qe(A, n):
+                    if n == 0: return I
+                    if n is odd: return A * qe(A, n-1)
+                    else:
+                        half = qe(A, n/2)
+                        return half * half
+            \end{minted}
+        \paragraph{}
+        	More generally, 
+            	if 
+                	$A =$ \(\begin{pmatrix}1 & -2\\1 & 0\end{pmatrix}\), 
+                    $x_0 = $ \(\begin{pmatrix}a_{1}\\a_{0}\end{pmatrix}\), and
+                    $b = $ \(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\),
+                then we can conclude $A^nx_0 = b$ and solve that equation in $O(log_2(n))$ time using quick exponentiation.
+                
+	\section {Technique 2.1}
+    	\paragraph{}
+        	Again, suppose we want to solve $A^nx_0 = b$. 
+            We can then use the property $A^n = PD^nP^{-1}$ for a diagonal matrix $D$ and some matrix $P$.
+            Hence, we need to diagonalize A.
+        \paragraph{}
+        	First, we find the eigenvalues of $A$. So we solve:
+            \begin{align*}
+            	         &det(\lambda I - A) = 0\\
+                \implies& \text{\(\begin{vmatrix}\lambda - 1 & -2\\1 & \lambda - 0\end{vmatrix}\)} = 0\\
+                \implies& \text{\(\begin{vmatrix}\lambda - 1 & -2\\1 & \lambda\end{vmatrix}\)} = 0\\
+                \implies& \lambda(\lambda - 1) - (-2) = 0\\
+                \implies& \lambda(\lambda - 1) + 2 = 0\\
+                \implies& \lambda^2 - \lambda + 2 = 0\\
+                \implies& \lambda = \frac{1 \pm \sqrt{(-1)^2 - 4 \cdot (1) \cdot (2)}}{2 \cdot (1)}\\
+                \implies& \lambda = \frac{1 \pm \sqrt{-7}}{2}\\
+                \implies& \lambda = \frac{1 \pm \iu\sqrt{7}}{2}\\
+            \end{align*}
+        \paragraph{}
+        	Next, we find the eigenvectors associated with each eigenvector:
+            \begin{align*}
+            	\text{When } \lambda = \frac{1 + \iu\sqrt{7}}{2} \text{, the eigenvector associated with } \lambda \text{ is }
+                \text{\(\begin{pmatrix}\lambda - 1 & -2\\1 & \lambda\end{pmatrix}\)}\textbf{x}_1 = 0 \implies \textbf{x}_1 = 
+                \text{\(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2}\\[6pt]1\end{pmatrix}\)}\\
+                \text{When } \lambda = \frac{1 - \iu\sqrt{7}}{2} \text{, the eigenvector associated with } \lambda \text{ is }
+                \text{\(\begin{pmatrix}\lambda - 1 & -2\\1 & \lambda\end{pmatrix}\)}\textbf{x}_2 = 0 \implies \textbf{x}_2 = 
+                \text{\(\begin{pmatrix}\frac{1 - \iu\sqrt{7}}{2}\\[6pt]1\end{pmatrix}\)}\\
+            \end{align*}
+        \paragraph{}
+        	From the previous steps, 
+            	we can conclude 
+                	$D = $ \(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & 0\\0 & \frac{1 - \iu\sqrt{7}}{2}\end{pmatrix}\),
+                    $P = $ \(\begin{pmatrix}\textbf{x}_1 \mid \textbf{x}_2 \end{pmatrix}\) = 
+                    	   \(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & \frac{1 - \iu\sqrt{7}}{2}\\[3pt] 1 & 1\end{pmatrix}\),\\ which implies 
+                    $P^{-1} = $ \(\begin{pmatrix}\frac{-\iu}{\sqrt{7}} & \frac{\iu + \sqrt{7}}{2\sqrt{7}} \\[3pt] \frac{\iu}{\sqrt{7}} & \frac{\iu - \sqrt{7}}{2\sqrt{7}}\end{pmatrix}\)\\
+                    
+                    So, if $A = PDP^{-1} = $ 
+                    	\(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & \frac{1 - \iu\sqrt{7}}{2}\\[3pt] 1 & 1\end{pmatrix}\)
+                    	\(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & 0\\0 & \frac{1 - \iu\sqrt{7}}{2}\end{pmatrix}\)
+                         \(\begin{pmatrix}\frac{-\iu}{\sqrt{7}} & \frac{\iu + \sqrt{7}}{2\sqrt{7}} \\[3pt] \frac{\iu}{\sqrt{7}} & \frac{\iu - \sqrt{7}}{2\sqrt{7}}\end{pmatrix}\), \\[10pt]
+                    then \\[10pt]
+                    $A^n = PD^nP^{-1} = $
+                    \(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & \frac{1 - \iu\sqrt{7}}{2}\\[3pt] 1 & 1\end{pmatrix}\)
+                    	\(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & 0\\0 & \frac{1 - \iu\sqrt{7}}{2}\end{pmatrix}^{n}\)
+                         \(\begin{pmatrix}\frac{-\iu}{\sqrt{7}} & \frac{\iu + \sqrt{7}}{2\sqrt{7}} \\[3pt] \frac{\iu}{\sqrt{7}} & \frac{\iu - \sqrt{7}}{2\sqrt{7}}\end{pmatrix}\) = \(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & \frac{1 - \iu\sqrt{7}}{2}\\[3pt] 1 & 1\end{pmatrix}\)
+                    	\(\begin{pmatrix}\left(\frac{1 + \iu\sqrt{7}}{2}\right)^n & 0\\0 & \left(\frac{1 - \iu\sqrt{7}}{2}\right)^n\end{pmatrix}\)
+                         \(\begin{pmatrix}\frac{-\iu}{\sqrt{7}} & \frac{\iu + \sqrt{7}}{2\sqrt{7}} \\[3pt] \frac{\iu}{\sqrt{7}} & \frac{\iu - \sqrt{7}}{2\sqrt{7}}\end{pmatrix}\) \\
+		\paragraph{}
+            So, if we want to solve $A^nx_0 = b$, we just solve:
+            $PD^nP^{-1}x_0 = b$\\[12pt]
+            $\implies $ \(\begin{pmatrix}\frac{1 + \iu\sqrt{7}}{2} & \frac{1 - \iu\sqrt{7}}{2}\\[3pt] 1 & 1\end{pmatrix}\)
+                    	\(\begin{pmatrix}\left(\frac{1 + \iu\sqrt{7}}{2}\right)^n & 0\\0 & \left(\frac{1 - \iu\sqrt{7}}{2}\right)^n\end{pmatrix}\)
+                         \(\begin{pmatrix}\frac{-\iu}{\sqrt{7}} & \frac{\iu + \sqrt{7}}{2\sqrt{7}} \\[3pt] \frac{\iu}{\sqrt{7}} & \frac{\iu - \sqrt{7}}{2\sqrt{7}}\end{pmatrix}\)\(\begin{pmatrix}1\\0\end{pmatrix}\) = \(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\) \\[12pt]
+            $\implies $  
+                         
+                \(\begin{pmatrix}\frac{\left(\frac{1 + \iu\sqrt{7}}{2}\right)^{n+1} - \left(\frac{1 - \iu\sqrt{7}}{2}\right)^{n+1}}{\iu\sqrt{7}}\\[6pt]
+                \frac{\left(\frac{1 + \iu\sqrt{7}}{2}\right)^{n} - \left(\frac{1 - \iu\sqrt{7}}{2}\right)^{n}}{\iu\sqrt{7}}\end{pmatrix}\) =
+                \(\begin{pmatrix}a_{n+1}\\a_{n}\end{pmatrix}\) \\[12pt]
+            $ \implies$
+            $a_{n} = \frac{\left(\frac{1 + \iu\sqrt{7}}{2}\right)^{n} - \left(\frac{1 - \iu\sqrt{7}}{2}\right)^{n}}{\iu\sqrt{7}}$\\[12pt]
+       Is this a constant time formula? Well, sadly no because we still have to exponentiate. So, the time complexity is still $O(log_2(n))$.
+       
+       
+	\section{Exercise}
+    	A binary string is a string consisting of entirely 0s and 1s.
+        For instance, $1010$ is a binary string but $1020$ is not. \\
+        Given an integer $n$, find the number of binary strings of length $n$ such that there are no adjacent 1s in the string.\\
+        
+        For example, $1000101$ is one such binary string that satisfies the property defined above at length $7$, but $1001101$ is not.\\
+        
+        (Note: in this problem, binary strings can begin with a zero, so $001$ is a valid binary string of length 3) \\
+        (Hint \#1: What are the base cases, i.e. what is $a_0$ and $a_1$? What is the recurrence relation?)\\
+        (Hint \#2: At any given place in the binary string, what are the possible options?/how many possible options are there?)
+\end{document}
