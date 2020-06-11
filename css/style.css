@@ -174,7 +174,21 @@ span.command#cat-description:before {
 }
 
 span.output#description-output:before {
-    content: "I am studying Computer Science @ UIUC. I am fascinated with the idea of intelligence and its many definitions. Understanding the underlying complexity of gene machines (i.e. living organisms) and applying nature\'s developments to abstract and concrete problems is what I like to do. I have experience with deep learning tools (Tensorflow, Keras, etc.) and software engineering in general.";
+    content: "\
+I am studying: \A\
+  - Computer Science (Theory & AI), \A\
+  - Mathematics (Applied) \A\
+at UIUC.\A\
+I like to:  \A\
+  - analyze randomness and in particular apply it to algorithms, \A\
+  - investigate gene-machines (i.e. living organisms) and the tractibility of protein related problems. \A\
+I am fascinated with: \A\
+  - the idea of intelligence and its many definitions, \A\
+I have experience with: \A\
+  - ML/DS tools (PyTorch, Tensorflow, OR-Tools, Keras, NumPy, etc.), \A\
+  - software engineering in general."
+    ;
+    white-space: pre;
 }
 
 span.command#grep-euler:before {
