@@ -66,8 +66,13 @@ a.button#github:hover {
     animation-fill-mode: forwards;
 }
 
-a.button#resume:hover {
+a.button#cv:hover {
     animation: background-color-transition-white-to-yellow 1s 1;
+    animation-fill-mode: forwards;
+}
+
+a.button#appreciation:hover {
+    animation: background-color-transition-white-to-purple 1s 1;
     animation-fill-mode: forwards;
 }
 
@@ -86,8 +91,13 @@ a.button#github:hover ~ #profile-pic {
     animation-fill-mode: forwards;
 }
 
-a.button#resume:hover ~ #profile-pic {
+a.button#cv:hover ~ #profile-pic {
     animation: shadow-color-transition-black-to-yellow 1s 1;
+    animation-fill-mode: forwards;
+}
+
+a.button#appreciation:hover ~ #profile-pic {
+    animation: shadow-color-transition-black-to-purple 1s 1;
     animation-fill-mode: forwards;
 }
 
