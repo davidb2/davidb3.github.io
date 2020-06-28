@@ -76,6 +76,11 @@ a.button#appreciation:hover {
     animation-fill-mode: forwards;
 }
 
+a.button#miscellaneous:hover {
+    animation: background-color-transition-white-to-orange 1s 1;
+    animation-fill-mode: forwards;
+}
+
 a.button#blog:hover {
     animation: background-color-transition-white-to-blue 1s 1;
     animation-fill-mode: forwards;
@@ -98,6 +103,11 @@ a.button#cv:hover ~ #profile-pic {
 
 a.button#appreciation:hover ~ #profile-pic {
     animation: shadow-color-transition-black-to-purple 1s 1;
+    animation-fill-mode: forwards;
+}
+
+a.button#miscellaneous:hover ~ #profile-pic {
+    animation: shadow-color-transition-black-to-orange 1s 1;
     animation-fill-mode: forwards;
 }
 
@@ -279,6 +289,11 @@ canvas {
     to   { box-shadow: 0px 5px 15px 0px #B39DDB; }
 }
 
+@keyframes shadow-color-transition-black-to-orange {
+    from { box-shadow: 0px 5px 15px 0px #000000; }
+    to   { box-shadow: 0px 5px 15px 0px #FFD54F; }
+}
+
 @keyframes background-color-transition-white-to-red {
     from { background-color: #FFFFFF; }
     to   { background-color: #FF8A80; }
@@ -302,4 +317,9 @@ canvas {
 @keyframes background-color-transition-white-to-purple {
     from { background-color: #FFFFFF; }
     to   { background-color: #B39DDB; }
+}
+
+@keyframes background-color-transition-white-to-orange {
+    from { background-color: #FFFFFF; }
+    to   { background-color: #FFD54F; }
 }
