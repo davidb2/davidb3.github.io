@@ -1,0 +1,19 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    background-color: #f4ecd7;
+}
+a {
+    text-decoration: none;
+}
+table { 
+    border-collapse: collapse; 
+    margin: 0 auto;
+}
+tr {
+    text-align: center;
+    border-bottom: 1px dashed #aa00ff;
+}
+td {
+    padding: 20px;
+}
