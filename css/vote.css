@@ -37,14 +37,13 @@ body {
 
 .hover-container {
   text-align: center;
-  margin-bottom: 2em;
+  margin-bottom: 3vh; /*2em;*/
 }
 
 .body-text {
-  margin: 0.5em 0;
+  /* margin: 0.5em 0; */
+  font-size: 2vw;
 }
-
-/* --- this is the code you probably want ---- */
 
 a {
   text-decoration: none;
@@ -62,7 +61,7 @@ a {
 h1 {
   /* border-bottom: 3px solid #ff8cbc; */
   border-bottom: 3px solid #333;
-  font-size: 3em;
+  font-size: 7vw;
   transition: all 0.25s linear;
   position: relative;
 }
@@ -92,13 +91,13 @@ h1:hover:before {
   bottom: 0;
   right: 0;
   text-align: right;
-  padding-right: 1em;
+  padding-right: 1vw;
 }
 
 h6 {
   /* border-bottom: 3px solid #ff8cbc; */
   border-bottom: 2px solid #333;
-  font-size: 1em;
+  font-size: 1.5vw;
   position: relative;
 }
 
