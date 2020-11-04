@@ -3,44 +3,102 @@
     <head>
         <!-- set the encoding -->
         <meta charset="utf-8">
+
         <!-- set some dependencies -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
         <!-- make scaling 1:1 -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Vote">
+
+        <meta name="description" content="I am computer scientist with focus and experience in theoretical computer science, cryptography, and deep learning.">
         <meta name="author" content="David Brewster">
-        <title>Vote</title>
+
+        <title>David Brewster</title>
+
           <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400|Ubuntu+Mono:400,700" rel="stylesheet">
-        <!-- set icon (Vote) -->
-        <link rel="icon" href="images/vote.png">
-        <!-- link my custom css spreadsheet -->
-        <link href="css/vote.css" rel="stylesheet">
-    </head>
 
+        <!-- set icon (Rubik's Cube) -->
+        <link rel="icon" href="images/cube.png">
+
+        <!-- link my custom css spreadsheet -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- link bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
     <body>
-      <div class="container">
-        <p class="body-text">
-          voting is an essential element of democracy
-        </p>
-        <div class="hover-container">
-          <a href="https://howto.vote/">
-            <h1>https://howto.vote/</h1>
-          </a>
-          <p class="body-text">
-            <small>
-              (click for info about voting in the US)
-            </small>
-          </p>
+        <div class="section" id="top-section">
+            <p id="name">David Brewster</p>
         </div>
-    <footer>
-      <div class="hover-container bottom-right">
-        <a href="./home.html" class="fade">
-          <h6>
-            Proceed to https://davidb2.github.io/ &#8594
-          </h6>
-        </a>
-      </div>
-    </footer>
-    </body>
+        <div class="section" id="particles-js">
+        </div>
+        <div class="section" id="top-middle-section">
+            <a class="button" id="github" href="https://github.com/davidb2" target="_blank">GitHub</a>
+            <a class="button" id="cv" href="files/david-brewster-cv.pdf" target="_blank">CV</a>
+            <a class="button" id="appreciation" href="courses.html">Appreciation</a>
+            <a class="button" id="blog" href="https://davidb2.github.io/blog" target="_blank">Blog</a>
+            <a class="button" id="miscellaneous" href="miscellaneous.html">Miscellaneous</a>
+            <img src="images/profile.jpg" id="profile-pic"/>
+        </div>
+
+        <div class="section bash" id="bottom-middle-section">
+            <p class="line-input">
+                <span class="user"/><!--
+                --><span class="colon"/><!--
+                --><span class="directory" id="home"/><!--
+                --><span class="pound"/><!--
+                --><span class="command" id="whoami"/>
+            </p>
+            <p class="line-output">
+                <span class="output" id="whoami-output"/>
+            </p>
+            <p class="line-input">
+                <span class="user"/><!--
+                --><span class="colon"/><!--
+                --><span class="directory" id="home"/><!--
+                --><span class="pound"/><!--
+                --><span class="command" id="cd-documents"/>
+            </p>
+            <p class="line-input">
+                <span class="user"/><!--
+                --><span class="colon"/><!--
+                --><span class="directory" id="documents"/><!--
+                --><span class="pound"/><!--
+                --><span class="command" id="cat-description"/>
+            </p>
+            <p class="line-output">
+                <span class="output" id="description-output"/>
+            </p>
+            <p class="line-finish">
+                <span class="user"/><!--
+                --><span class="colon"/><!--
+                --><span class="directory" id="documents"/><!--
+                --><span class="pound"/><!--
+                --><span class="command" id="blank"/>
+            </p>
+        </div>
+
+        <div class="section" id="bottom-section">
+            <footer>
+                <p>Created by David Brewster</p>
+                <a class="button" id="source" href="http://github.com/davidb2/davidb2.github.io" target="_blank">Source</a>
+            </footer>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+          const canvas = document.getElementsByClassName("particles-js-canvas-el")[0];
+          const context = canvas.getContext("2d");
+          context.fillStyle = "white";
+          context.font = "bold 16px Arial";
+          context.fillText("Zibri", 50, 50);
+        </script>
+  </body>
 </html>
